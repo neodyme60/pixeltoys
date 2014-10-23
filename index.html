@@ -1,0 +1,245 @@
+<html>
+
+<head>
+<title>Blabla</title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<meta name="Author" content="">
+<script type="text/javascript" src="engine.js"></script>
+<script type="text/javascript" src="shader.js"></script>
+<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
+<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">    
+<!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+
+	<script type="text/javascript">
+		var myEngine = new Engine();
+	</script>
+
+    <script type="text/javascript">
+
+		document.addEventListener("DOMContentLoaded", init, false);
+
+		function init()
+		{
+			var canvas = document.getElementById("c");
+			canvas.addEventListener("mousemove", OnMouseMove, false);
+			canvas.addEventListener("mousedown", OnMouseDown, false);
+			canvas.addEventListener("mouseup", OnMouseUp, false);
+			canvas.addEventListener("mouseup", OnMouseUp, false);
+			canvas.onselectstart=new Function ("return false");
+		}
+
+		function getMousePosition(event)
+		{
+			var x = new Number();
+			var y = new Number();
+			var canvas = document.getElementById("c");
+
+			if (event.x != undefined && event.y != undefined)
+			{
+			  x = event.x;
+			  y = event.y;
+			}
+			else // Firefox method to get the position
+			{
+			  x = event.clientX + document.body.scrollLeft +
+				  document.documentElement.scrollLeft;
+			  y = event.clientY + document.body.scrollTop +
+				  document.documentElement.scrollTop;
+			}
+
+			x -= canvas.offsetLeft;
+			y -= canvas.offsetTop;
+		
+			return  {x : x, y : y};
+		}
+		
+		function OnMouseDown(event)
+		{
+			myEngine.OnMouseDown();
+//			mouseMove(event);
+		}
+		
+		function OnMouseUp(event)
+		{
+			myEngine.OnMouseUp();
+//			mouseMove(event);
+		}
+	  
+		function OnMouseMove(event)
+		{
+			var pos =getMousePosition(event);
+			myEngine.OnMouseMove(pos.x,pos.y);
+			
+			xx=((2.0*pos.x/c.width)-1.0);
+			yy=((2.0*pos.y/c.height)-1.0);
+			xxx=Math.round(xx*Math.pow(10,2))/Math.pow(10,2)
+			yyy=Math.round(yy*Math.pow(10,2))/Math.pow(10,2)						
+			document.getElementById("mousepos").innerHTML=pos.x+"/"+pos.y+"  "+xxx+"/"+yyy;
+		}
+
+		function OnCanvasResize()
+		{
+			w=document.getElementById("canvas_width").value;
+			h=document.getElementById("canvas_height").value;
+
+			c=document.getElementById("c");
+			
+			c.width=Math.min(Math.max(w,32),470);
+			c.height=Math.min(Math.max(h,32),470);
+			
+			document.getElementById("canvas_width").value=c.width;
+			document.getElementById("canvas_height").value=c.height;		
+
+			myEngine.OnResize(c.width,c.height);
+		}
+		
+    </script>
+
+
+<script type="text/javascript">
+
+//====================================================================================
+//http://paulirish.com/2011/requestanimationframe-for-smart-animating///
+
+// shim layer with setTimeout fallback
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       || 
+		  window.webkitRequestAnimationFrame || 
+		  window.mozRequestAnimationFrame    || 
+		  window.oRequestAnimationFrame      || 
+		  window.msRequestAnimationFrame     || 
+		  function( callback ){
+			window.setTimeout(callback, 1000 / 60);
+		  };
+})();
+
+function animloop()
+{
+	requestAnimFrame(animloop);
+    myEngine.OnRender(myEngine.GetTimer());
+};
+
+//====================================================================================
+
+function webGLStart()
+{
+	var canvas = document.getElementById("c");
+	myEngine.OnInit(canvas);
+	myEngine.OnResetTimer();
+	myEngine.OnResize(canvas.width,canvas.height);
+	myEngine.OnMouseMove(canvas.width/2,canvas.height/2);
+	myEngine.OnSetTextures(0,'http://localhost/shadertoys/img/tex3.jpg');
+	myEngine.OnInitShaders();
+	animloop();
+}
+
+</script>
+</head>
+
+<body onload="webGLStart()">
+
+<div class="container">
+	<div id="header" class="span-24">Shader editor v0.1</div>
+	<div class="span-24 bloc_separator"></div>
+	
+	<div id="left" class="span-12">
+		<div class="bloc_header">Render</div>
+		<div class="bloc_content" style="width:470px;height:470px;text-align:center;display:table-cell;vertical-align:middle">
+			<canvas id="c" width="470" height="470" style="vertical-align:middle;" onmousedown="this.style.cursor='hand'" onmouseover="this.style.cursor='crosshair'" onmouseup="this.style.cursor='crosshair'">
+			If you're seeing this your web browser doesn't support the &lt;canvas>&gt; element. Ouch!
+			</canvas>	
+		</div>
+		
+		<div class="bloc_separator"></div>
+		
+		<div class="bloc_header">Info</div>
+		<div class="bloc_content" style="padding:5px">
+			<label>Mouse pos:</label>&nbsp;&nbsp;<span id="mousepos"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Fps:</label>&nbsp;&nbsp;<span id="mousepos"></span>			
+		</div>
+
+		<div class="bloc_separator"></div>
+		
+		<div class="bloc_header">Size</div>
+		<div class="bloc_content" style="padding:5px">
+			<label>Width:</label>&nbsp;<input id="canvas_width"  type="text" onChange="OnCanvasResize();" value="512" style="width:70px" />
+			<label>Height:</label>&nbsp;<input id="canvas_height"  type="text" onChange="OnCanvasResize();" value="512" style="width:70px" />
+		</div>
+		
+		<div class="bloc_separator"></div>		
+		
+		<div class="bloc_header">Console</div>
+		<div class="bloc_content" style="padding:5px">
+			<textarea style="background-color:#eee;width:100%;resize:none;height:150px;;padding:0;margin:0;border:0">eezcezcezcez</textarea>
+		</div>		
+		
+	</div>
+	
+	<div id="right" class="span-12 last">
+		<div class="bloc_header">Glsl</div>
+		<div class="bloc_content">
+			<textarea id="shader-fs" style="background-color:#eee;resize:none;width:470px;height:470px;padding:0;margin:0;border:0">			
+			<?php //echo $this->get('helloWorld'); ?>
+			</textarea>
+				
+			<textarea id="shader-vs" style="display:none">
+			attribute  vec2 aVertexPosition;
+
+			void main(void) 
+			{
+				gl_Position = vec4(aVertexPosition.x,aVertexPosition.y, 0.0, 1.0);
+			}
+			</textarea>	
+		</div>
+		
+		<div class="bloc_separator"></div>		
+		
+		<div class="bloc_header">Action</div>
+		<div class="bloc_content" style="padding:5px">
+			<input type="button" value="Update" onChange="" style="width:70px" />
+			<input type="button" value="Save" onChange="" style="width:70px" />
+		</div>
+
+		<div class="bloc_separator"></div>	
+		
+		<div class="bloc_header">Presets</div>
+		<div class="bloc_content" style="padding:5px">
+			<select style="width:300px">
+				<optgroup label="Swedish Cars">
+					<option value="ddd">adzdz</option>
+					<option value="ddd">zdzd</option> 
+					<option value="ddd">zdzdzddzd</option>
+				</optgroup>				
+				<optgroup label="Swedish Cars">
+					<option value="ddd">adzdz</option>
+					<option value="ddd">zdzd</option> 
+					<option value="ddd">zdzdzddzd</option>
+				</optgroup>
+			</select>
+			<input type="button" value="Load" onclick="" style="width:70px" />
+		</div>
+		
+		<div class="bloc_separator"></div>		
+		<div class="bloc_header">Uniforms</div>
+		<div class="bloc_content" style="padding:5px">	
+			<label>sampler0:</label>&nbsp;<input type="text" value="Load" onclick="" style="width:380px" />
+			<br/>
+			<label>sampler1:</label>&nbsp;<input type="text" value="Load" onclick="" style="width:380px" />
+			<br/>
+			<label>sampler2:</label>&nbsp;<input type="text" value="Load" onclick="" style="width:380px" />
+			<br/>
+			<label>sampler3:</label>&nbsp;<input type="text" value="Load" onclick="" style="width:380px" />
+			<br/>
+		</div>
+		
+		
+	</div>
+	
+	<div class="span-24" style="background-color:#fff"></div>		
+    <div id="footer" class="span-24">Footer</div>
+</div>
+
+</body>
+
+</html>

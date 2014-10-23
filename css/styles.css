@@ -1,0 +1,87 @@
+body { background-color:#555 }
+
+#header 
+{
+	background-color:#000;
+	color:#fff;
+}
+
+#left
+{
+	background-color:#777;
+}
+
+#main
+{
+	background-color:#f00;
+}
+
+#right
+{
+	background-color:#777;
+}
+
+#footer
+{
+	background-color:#000;
+	color:#fff;
+}
+
+.bloc_header
+{
+	background-color:#000;
+	color:#fff;
+	font-weight:bold;
+	font-size:1.33em;
+	margin:0px;
+	padding-left:5px;
+}
+
+.bloc_content
+{
+	background-color:#eee;
+	margin:0px;
+}
+
+.bloc_separator
+{
+	background-color:#555;
+	padding-top:15px;
+}
+
+
+
+/**************************************************************************************************loader */
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   speak for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 50, 50, 50, .6 ) 
+                url('../img/loader.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
+
+/*loader ***************************************************************************************************/
+
