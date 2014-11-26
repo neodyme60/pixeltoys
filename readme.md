@@ -1,17 +1,8 @@
-Raypy is a physically based renderer in python.
+http://shaderhouse.neodyme.net
 
-*Accelerators: 
--Grid traversal is working, but has a bug with meshes.
--Bvh
+Shadereditor online with webgl. Inspired by IQ https://www.shadertoy.com/
+Not finished.
 
-*Brdf
--matte (Lambertian) : 50%
--mirror : 50%
-
-*Integrator:
--Ambient occlusion. Done
-![alt text](https://github.com/neodyme60/raypy/blob/master/doc/ao_100.png "Logo Title Text 1")
-![alt text](https://github.com/neodyme60/raypy/blob/master/doc/ao_3.png "Logo Title Text 1")
--Directlighting: Light sampling (50%) BRDF sampling (50%) multiple importance sampling: (50%)
+![alt text](https://github.com/neodyme60/pixeltoys/blob/master/doc/demo.png "Logo Title Text 1")
 
 
